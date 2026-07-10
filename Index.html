@@ -2,17 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Анонимный опрос</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0b0e1a;
             min-height: 100vh;
             display: flex;
@@ -21,26 +16,22 @@
             color: #fff;
             padding: 20px;
         }
-
         .container {
             width: 100%;
             max-width: 480px;
             background: #141b2b;
             border-radius: 40px;
             padding: 32px 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-            transition: all 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
         }
-
         .host-container {
             max-width: 900px;
             width: 100%;
             background: #141b2b;
             border-radius: 40px;
             padding: 32px 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
         }
-
         h1 {
             font-weight: 600;
             font-size: 28px;
@@ -49,7 +40,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .subtitle {
             color: #8892b0;
             font-size: 14px;
@@ -57,7 +47,6 @@
             border-bottom: 1px solid #1e2a3a;
             padding-bottom: 16px;
         }
-
         .question-text {
             font-size: 22px;
             font-weight: 500;
@@ -65,14 +54,12 @@
             margin-bottom: 32px;
             min-height: 70px;
         }
-
         .options {
             display: flex;
             flex-direction: column;
             gap: 16px;
             margin-bottom: 28px;
         }
-
         .option-btn {
             background: #1e2a3a;
             border: 2px solid transparent;
@@ -87,14 +74,8 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            position: relative;
-            overflow: hidden;
+            width: 100%;
         }
-
-        .option-btn:active {
-            transform: scale(0.97);
-        }
-
         .option-btn .letter {
             background: #2d3b4f;
             width: 36px;
@@ -107,35 +88,29 @@
             color: #a78bfa;
             flex-shrink: 0;
         }
-
-        .option-btn:hover {
+        .option-btn:hover:not(.voted) {
             border-color: #4a3f6b;
         }
-
         .option-btn.selected {
             border-color: #7c3aed;
             background: #1f1a3a;
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
+            box-shadow: 0 0 30px rgba(124,58,237,0.15);
         }
-
         .option-btn.voted {
             opacity: 0.5;
             pointer-events: none;
             border-color: #2d3b4f;
         }
-
         .option-btn .check {
             margin-left: auto;
             font-size: 22px;
             opacity: 0;
             transition: 0.2s;
         }
-
         .option-btn.selected .check {
             opacity: 1;
             color: #7c3aed;
         }
-
         .waiting-status {
             text-align: center;
             padding: 18px;
@@ -147,17 +122,14 @@
             border: 1px dashed #2d3b4f;
             display: none;
         }
-
         .waiting-status.active {
             display: block;
             animation: pulse 1.5s ease-in-out infinite;
         }
-
         @keyframes pulse {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
         }
-
         .waiting-status span {
             display: inline-block;
             width: 10px;
@@ -167,19 +139,16 @@
             margin-right: 10px;
             animation: blink 1s infinite;
         }
-
         @keyframes blink {
             0%, 100% { opacity: 0.2; }
             50% { opacity: 1; }
         }
-
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
             margin: 20px 0 32px;
         }
-
         .stat-card {
             background: #1a2335;
             border-radius: 28px;
@@ -187,32 +156,24 @@
             text-align: center;
             border: 1px solid #252f45;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
         }
-
         .stat-card .label {
             font-size: 16px;
             color: #8892b0;
             margin-bottom: 8px;
         }
-
         .stat-card .value {
             font-size: 64px;
             font-weight: 700;
             line-height: 1;
-            transition: all 0.3s ease;
         }
-
         .stat-card .percent {
             font-size: 20px;
             color: #94a3b8;
             margin-top: 6px;
         }
-
         .stat-card.option-a .value { color: #60a5fa; }
         .stat-card.option-b .value { color: #f472b6; }
-
         .stat-card .bar-bg {
             width: 100%;
             height: 8px;
@@ -221,7 +182,6 @@
             margin-top: 16px;
             overflow: hidden;
         }
-
         .stat-card .bar-fill {
             height: 100%;
             width: 0%;
@@ -229,28 +189,23 @@
             transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             background: linear-gradient(90deg, #60a5fa, #3b82f6);
         }
-
         .stat-card.option-b .bar-fill {
             background: linear-gradient(90deg, #f472b6, #ec4899);
         }
-
         .stat-card.pop {
             animation: pop 0.5s ease;
         }
-
         @keyframes pop {
             0% { transform: scale(0.95); }
             40% { transform: scale(1.04); }
             100% { transform: scale(1); }
         }
-
         .host-controls {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
             margin-top: 12px;
         }
-
         .btn-primary {
             background: #7c3aed;
             border: none;
@@ -263,19 +218,11 @@
             transition: all 0.2s;
             flex: 1;
             min-width: 160px;
-            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 8px 30px rgba(124,58,237,0.3);
         }
-
         .btn-primary:active {
             transform: scale(0.96);
         }
-
-        .btn-primary:disabled {
-            opacity: 0.4;
-            pointer-events: none;
-            filter: grayscale(0.5);
-        }
-
         .btn-secondary {
             background: #1e2a3a;
             border: 1px solid #2d3b4f;
@@ -289,11 +236,9 @@
             flex: 1;
             min-width: 120px;
         }
-
         .btn-secondary:active {
             transform: scale(0.96);
         }
-
         .qr-hint {
             background: #0f1625;
             border-radius: 16px;
@@ -308,7 +253,6 @@
             word-break: break-all;
             flex-wrap: wrap;
         }
-
         .qr-hint code {
             color: #a78bfa;
             background: #1a1f30;
@@ -317,56 +261,34 @@
             font-size: 13px;
             flex: 1;
         }
-
         .vote-count-badge {
             font-size: 14px;
             color: #64748b;
             text-align: center;
             margin: 12px 0 8px;
         }
-
         .host-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            gap: 12px;
         }
-
         .status-badge {
             background: #1e2a3a;
             padding: 6px 18px;
             border-radius: 40px;
             font-size: 14px;
             color: #94a3b8;
+            white-space: nowrap;
         }
-
         .status-badge.active {
             background: #2d1b4a;
             color: #a78bfa;
         }
-
-        .loading-overlay {
-            text-align: center;
-            padding: 40px 20px;
-            color: #8892b0;
+        .hidden {
+            display: none !important;
         }
-
-        .loading-overlay .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #1e2a3a;
-            border-top: 3px solid #7c3aed;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 16px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         .error-msg {
             background: #2d1b1b;
             border: 1px solid #5c2a2a;
@@ -377,7 +299,6 @@
             text-align: center;
             font-size: 14px;
         }
-
         @media (max-width: 600px) {
             .container, .host-container {
                 padding: 24px 16px;
@@ -400,62 +321,44 @@
                 font-size: 20px;
             }
         }
-
-        .hidden {
-            display: none !important;
-        }
     </style>
 </head>
 <body>
 
-<!-- ========================================= -->
-<!-- === СТРАНИЦА ГОЛОСОВАНИЯ (ТЕЛЕФОН) === -->
-<!-- ========================================= -->
+<!-- СТРАНИЦА УЧАСТНИКА -->
 <div id="voterApp" class="container">
     <h1>📊 Опрос</h1>
     <div class="subtitle">Анонимно · 1 вопрос</div>
-
-    <div id="questionDisplay" class="question-text">Загрузка вопроса...</div>
-
-    <div id="optionsContainer" class="options">
+    <div id="questionDisplay" class="question-text">Какой вариант вы выбираете?</div>
+    <div class="options">
         <button class="option-btn" data-option="A" id="optA">
             <span class="letter">A</span>
-            <span id="optALabel">Вариант А</span>
+            <span id="optALabel">Синий — путь инноваций</span>
             <span class="check">✓</span>
         </button>
         <button class="option-btn" data-option="B" id="optB">
             <span class="letter">B</span>
-            <span id="optBLabel">Вариант Б</span>
+            <span id="optBLabel">Розовый — путь гармонии</span>
             <span class="check">✓</span>
         </button>
     </div>
-
     <div id="waitingStatus" class="waiting-status">
         <span></span> Ожидаем, пока ведущий откроет следующий вопрос...
     </div>
-
-    <div id="voterFeedback" style="text-align:center; font-size:14px; color:#64748b; margin-top:10px;">
-        Ваш голос анонимен
-    </div>
-    
     <div id="voterError" class="error-msg hidden"></div>
 </div>
 
-<!-- ========================================= -->
-<!-- === ПАНЕЛЬ ВЕДУЩЕГО (БОЛЬШОЙ ЭКРАН) === -->
-<!-- ========================================= -->
+<!-- ПАНЕЛЬ ВЕДУЩЕГО -->
 <div id="hostApp" class="host-container hidden">
     <div class="host-title">
         <div>
             <h1>🎯 Панель ведущего</h1>
-            <div class="subtitle" style="margin-bottom: 4px;">Управление опросом в реальном времени</div>
+            <div class="subtitle">Управление опросом в реальном времени</div>
         </div>
         <div id="hostStatusBadge" class="status-badge">● Загрузка...</div>
     </div>
-
     <div class="vote-count-badge" id="totalVotesDisplay">Всего голосов: 0</div>
-
-    <div class="stats-grid" id="statsGrid">
+    <div class="stats-grid">
         <div class="stat-card option-a" id="statA">
             <div class="label">Вариант А</div>
             <div class="value" id="statAValue">0</div>
@@ -469,231 +372,130 @@
             <div class="bar-bg"><div class="bar-fill" id="statBBar" style="width:0%"></div></div>
         </div>
     </div>
-
     <div class="host-controls">
         <button class="btn-primary" id="nextBtn">▶ Следующий вопрос</button>
         <button class="btn-secondary" id="resetBtn">⟳ Сбросить</button>
     </div>
-
     <div id="hostError" class="error-msg hidden"></div>
-
     <div class="qr-hint">
         🔗 Ссылка для участников:
         <code id="voterLinkDisplay">/</code>
-        <span style="margin-left:auto; font-size:12px;">(откройте на телефоне)</span>
     </div>
 </div>
 
 <script>
-    // ============================================================
-    //  НАСТРОЙКА JSONBIN.IO (БЕСПЛАТНОЕ ОБЛАЧНОЕ ХРАНИЛИЩЕ)
-    // ============================================================
-    // 1. Зарегистрируйтесь на https://jsonbin.io (бесплатно)
-    // 2. Создайте новый бин (Create Bin) с любыми данными, например: { "votes": { "A": 0, "B": 0 }, "isVotingOpen": false, "round": 0 }
-    // 3. Скопируйте BIN_ID из URL (например: https://api.jsonbin.io/v3/b/67c8a98a...)
-    // 4. Получите API-ключ в настройках аккаунта (Access Keys -> Create API Key)
-    // 5. Вставьте их ниже:
+    // ===== НАСТРОЙКА JSONBIN.IO =====
+    // Зарегистрируйтесь на https://jsonbin.io
+    // Создайте бин с данными: { "votes": { "A": 0, "B": 0 }, "isVotingOpen": false, "round": 0 }
+    // Вставьте ваши данные ниже:
     
     const JSONBIN_CONFIG = {
-        BIN_ID: '6a507f19f5f4af5e297afa9a ', // например: '67c8a9a8e41b4d34e47d5f1a'
-        API_KEY: '$2a$10$cG/aqvgEWbMWiE1cgLEiTubpjnDTMEPVb.64BZ.RvoGSVpPWViVim', // например: '$2a$10$abc123...'
+        BIN_ID: 'ВАШ_BIN_ID',    // <<<< ВСТАВЬТЕ СЮДА
+        API_KEY: 'ВАШ_API_КЛЮЧ', // <<<< ВСТАВЬТЕ СЮДА
     };
 
-    // ============================================================
-    //  КОНФИГУРАЦИЯ ОПРОСА (меняйте текст здесь)
-    // ============================================================
     const CONFIG = {
         question: 'Какой вариант вы выбираете?',
         optionA: 'Синий — путь инноваций',
         optionB: 'Розовый — путь гармонии',
     };
 
-    // ============================================================
-    //  РАБОТА С JSONBIN.IO API
-    // ============================================================
+    // ===== КОД РАБОТЫ С JSONBIN =====
     const API_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_CONFIG.BIN_ID}`;
 
-    async function loadStateFromCloud() {
-        try {
-            const response = await fetch(API_URL, {
-                headers: {
-                    'X-Master-Key': JSONBIN_CONFIG.API_KEY,
-                }
-            });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            return data.record;
-        } catch (error) {
-            console.error('Ошибка загрузки:', error);
-            throw error;
-        }
+    async function loadState() {
+        const res = await fetch(API_URL, {
+            headers: { 'X-Master-Key': JSONBIN_CONFIG.API_KEY }
+        });
+        if (!res.ok) throw new Error('Ошибка загрузки');
+        const data = await res.json();
+        return data.record;
     }
 
-    async function saveStateToCloud(state) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': JSONBIN_CONFIG.API_KEY,
-                },
-                body: JSON.stringify(state)
-            });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (error) {
-            console.error('Ошибка сохранения:', error);
-            throw error;
-        }
+    async function saveState(state) {
+        const res = await fetch(API_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_CONFIG.API_KEY,
+            },
+            body: JSON.stringify(state)
+        });
+        if (!res.ok) throw new Error('Ошибка сохранения');
+        return await res.json();
     }
 
-    // ============================================================
-    //  ГЛОБАЛЬНОЕ СОСТОЯНИЕ
-    // ============================================================
-    let state = {
-        votes: { A: 0, B: 0 },
-        isVotingOpen: false,
-        round: 0,
-        question: CONFIG.question,
-        optionA: CONFIG.optionA,
-        optionB: CONFIG.optionB,
-    };
-    
+    // ===== ГЛОБАЛЬНОЕ СОСТОЯНИЕ =====
+    let state = { votes: { A: 0, B: 0 }, isVotingOpen: false, round: 0 };
     let isHost = false;
-    let voterLink = '';
-    let pollInterval = null;
-    let isUpdating = false;
+    let votedRound = null;
 
-    // ============================================================
-    //  ИНИЦИАЛИЗАЦИЯ
-    // ============================================================
-    const voterApp = document.getElementById('voterApp');
-    const hostApp = document.getElementById('hostApp');
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    const urlParams = new URLSearchParams(window.location.search);
+    isHost = urlParams.has('host');
 
-    async function init() {
-        const urlParams = new URLSearchParams(window.location.search);
-        isHost = urlParams.has('host');
-        voterLink = window.location.href.split('?')[0];
-
-        // Показываем нужный интерфейс
-        if (isHost) {
-            voterApp.classList.add('hidden');
-            hostApp.classList.remove('hidden');
-            document.getElementById('voterLinkDisplay').textContent = voterLink;
-            await initHost();
-        } else {
-            voterApp.classList.remove('hidden');
-            hostApp.classList.add('hidden');
-            await initVoter();
-        }
-
-        // Запускаем опрос обновлений
-        startPolling();
+    if (isHost) {
+        document.getElementById('voterApp').classList.add('hidden');
+        document.getElementById('hostApp').classList.remove('hidden');
+        document.getElementById('voterLinkDisplay').textContent = window.location.href.split('?')[0];
+        initHost();
+    } else {
+        document.getElementById('voterApp').classList.remove('hidden');
+        document.getElementById('hostApp').classList.add('hidden');
+        initVoter();
     }
 
-    // ============================================================
-    //  ОПРОС ОБНОВЛЕНИЙ (каждые 2 секунды)
-    // ============================================================
-    function startPolling() {
-        if (pollInterval) clearInterval(pollInterval);
-        pollInterval = setInterval(async () => {
-            if (isUpdating) return;
-            try {
-                const newState = await loadStateFromCloud();
-                if (JSON.stringify(newState) !== JSON.stringify(state)) {
-                    state = newState;
-                    if (isHost) {
-                        renderHost();
-                    } else {
-                        renderVoter();
-                    }
-                }
-            } catch (error) {
-                // Тихая ошибка, не показываем пользователю при каждом опросе
-            }
-        }, 2000);
-    }
-
-    // ============================================================
-    //  ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-    // ============================================================
-    function showError(elementId, message) {
-        const el = document.getElementById(elementId);
-        if (el) {
-            el.textContent = message;
-            el.classList.remove('hidden');
-            setTimeout(() => el.classList.add('hidden'), 5000);
-        }
-    }
-
-    function hideError(elementId) {
-        const el = document.getElementById(elementId);
-        if (el) el.classList.add('hidden');
-    }
-
-    // ============================================================
-    //  === ВЕДУЩИЙ (HOST) ===
-    // ============================================================
+    // ===== ВЕДУЩИЙ =====
     async function initHost() {
-        const nextBtn = document.getElementById('nextBtn');
-        const resetBtn = document.getElementById('resetBtn');
-
-        // Загружаем начальное состояние
         try {
-            state = await loadStateFromCloud();
+            state = await loadState();
             renderHost();
-        } catch (error) {
-            showError('hostError', '❌ Не удалось загрузить данные. Проверьте настройки JSONBin.');
+        } catch (e) {
+            showError('hostError', '❌ Ошибка загрузки. Проверьте настройки JSONBin.');
         }
 
-        nextBtn.addEventListener('click', async () => {
+        document.getElementById('nextBtn').addEventListener('click', async () => {
             try {
-                isUpdating = true;
                 if (state.isVotingOpen) {
-                    // Закрываем голосование
                     state.isVotingOpen = false;
                 } else {
-                    // Открываем новое голосование
                     state.votes = { A: 0, B: 0 };
                     state.isVotingOpen = true;
                     state.round = (state.round || 0) + 1;
                 }
-                await saveStateToCloud(state);
+                await saveState(state);
                 renderHost();
-                hideError('hostError');
-            } catch (error) {
-                showError('hostError', '❌ Ошибка сохранения. Попробуйте еще раз.');
-            } finally {
-                isUpdating = false;
+            } catch (e) {
+                showError('hostError', '❌ Ошибка сохранения');
             }
         });
 
-        resetBtn.addEventListener('click', async () => {
+        document.getElementById('resetBtn').addEventListener('click', async () => {
             if (!confirm('Сбросить все голоса?')) return;
-            try {
-                isUpdating = true;
-                state.votes = { A: 0, B: 0 };
-                state.isVotingOpen = false;
-                state.round = (state.round || 0) + 1;
-                await saveStateToCloud(state);
-                renderHost();
-                hideError('hostError');
-            } catch (error) {
-                showError('hostError', '❌ Ошибка сброса.');
-            } finally {
-                isUpdating = false;
-            }
+            state.votes = { A: 0, B: 0 };
+            state.isVotingOpen = false;
+            state.round = (state.round || 0) + 1;
+            await saveState(state);
+            renderHost();
         });
+
+        setInterval(async () => {
+            try {
+                const newState = await loadState();
+                if (JSON.stringify(newState) !== JSON.stringify(state)) {
+                    state = newState;
+                    renderHost();
+                }
+            } catch (e) {}
+        }, 2000);
     }
 
     function renderHost() {
         const votes = state.votes || { A: 0, B: 0 };
         const total = votes.A + votes.B;
-
         document.getElementById('totalVotesDisplay').textContent = `Всего голосов: ${total}`;
         document.getElementById('statAValue').textContent = votes.A;
         document.getElementById('statBValue').textContent = votes.B;
-
         const pA = total === 0 ? 0 : Math.round((votes.A / total) * 100);
         const pB = total === 0 ? 0 : Math.round((votes.B / total) * 100);
         document.getElementById('statAPercent').textContent = pA + '%';
@@ -701,20 +503,17 @@
         document.getElementById('statABar').style.width = pA + '%';
         document.getElementById('statBBar').style.width = pB + '%';
 
-        const statusBadge = document.getElementById('hostStatusBadge');
-        const nextBtn = document.getElementById('nextBtn');
-        
+        const badge = document.getElementById('hostStatusBadge');
+        const btn = document.getElementById('nextBtn');
         if (state.isVotingOpen) {
-            statusBadge.textContent = '● Голосование открыто';
-            statusBadge.className = 'status-badge active';
-            nextBtn.textContent = '⏸ Закрыть и показать статистику';
+            badge.textContent = '● Голосование открыто';
+            badge.className = 'status-badge active';
+            btn.textContent = '⏸ Закрыть и показать статистику';
         } else {
-            statusBadge.textContent = '● Голосование закрыто (ожидание)';
-            statusBadge.className = 'status-badge';
-            nextBtn.textContent = '▶ Следующий вопрос';
+            badge.textContent = '● Голосование закрыто';
+            badge.className = 'status-badge';
+            btn.textContent = '▶ Следующий вопрос';
         }
-
-        // Анимация
         document.getElementById('statA').classList.remove('pop');
         document.getElementById('statB').classList.remove('pop');
         void document.getElementById('statA').offsetWidth;
@@ -722,30 +521,33 @@
         document.getElementById('statB').classList.add('pop');
     }
 
-    // ============================================================
-    //  === УЧАСТНИК (VOTER) ===
-    // ============================================================
-    let votedRound = null;
-
+    // ===== УЧАСТНИК =====
     async function initVoter() {
-        const optA = document.getElementById('optA');
-        const optB = document.getElementById('optB');
-
         try {
-            state = await loadStateFromCloud();
+            state = await loadState();
             renderVoter();
-        } catch (error) {
-            showError('voterError', '❌ Не удалось загрузить опрос. Проверьте интернет.');
+        } catch (e) {
+            showError('voterError', '❌ Ошибка загрузки опроса');
         }
 
-        optA.addEventListener('click', () => handleVote('A'));
-        optB.addEventListener('click', () => handleVote('B'));
+        document.getElementById('optA').addEventListener('click', () => handleVote('A'));
+        document.getElementById('optB').addEventListener('click', () => handleVote('B'));
+
+        setInterval(async () => {
+            try {
+                const newState = await loadState();
+                if (JSON.stringify(newState) !== JSON.stringify(state)) {
+                    state = newState;
+                    renderVoter();
+                }
+            } catch (e) {}
+        }, 2000);
     }
 
     function renderVoter() {
-        document.getElementById('questionDisplay').textContent = state.question || CONFIG.question;
-        document.getElementById('optALabel').textContent = state.optionA || CONFIG.optionA;
-        document.getElementById('optBLabel').textContent = state.optionB || CONFIG.optionB;
+        document.getElementById('questionDisplay').textContent = CONFIG.question;
+        document.getElementById('optALabel').textContent = CONFIG.optionA;
+        document.getElementById('optBLabel').textContent = CONFIG.optionB;
 
         const isOpen = state.isVotingOpen;
         const currentRound = state.round || 0;
@@ -762,66 +564,46 @@
             if (votedRound !== currentRound) {
                 optA.classList.remove('voted');
                 optB.classList.remove('voted');
-                optA.classList.remove('selected');
-                optB.classList.remove('selected');
                 votedRound = null;
             }
             return;
         }
 
         waitingStatus.classList.remove('active');
-
         if (votedRound !== currentRound) {
             votedRound = null;
             optA.classList.remove('voted', 'selected');
             optB.classList.remove('voted', 'selected');
         }
-
         if (votedRound === currentRound) {
             optA.classList.add('voted');
             optB.classList.add('voted');
         } else {
             optA.classList.remove('voted');
             optB.classList.remove('voted');
-            optA.classList.remove('selected');
-            optB.classList.remove('selected');
         }
     }
 
     async function handleVote(option) {
-        const isOpen = state.isVotingOpen;
-        const currentRound = state.round || 0;
-
-        if (!isOpen) {
-            showError('voterError', '⏳ Голосование закрыто. Дождитесь следующего вопроса.');
+        if (!state.isVotingOpen) {
+            showError('voterError', '⏳ Голосование закрыто');
             return;
         }
-
-        if (votedRound === currentRound) {
-            showError('voterError', '✅ Вы уже проголосовали в этом раунде.');
+        if (votedRound === state.round) {
+            showError('voterError', '✅ Вы уже проголосовали');
             return;
         }
-
         try {
-            isUpdating = true;
-            // Загружаем свежие данные (на случай, если кто-то уже проголосовал)
-            const freshState = await loadStateFromCloud();
-            if (!freshState.isVotingOpen) {
-                showError('voterError', '⏳ Голосование было закрыто. Дождитесь следующего вопроса.');
+            const fresh = await loadState();
+            if (!fresh.isVotingOpen || fresh.round !== state.round) {
+                showError('voterError', '⏳ Состояние изменилось');
                 return;
             }
-            if (freshState.round !== currentRound) {
-                showError('voterError', '🔄 Вопрос изменился. Обновите страницу.');
-                return;
-            }
-
-            // Голосуем
-            freshState.votes[option] = (freshState.votes[option] || 0) + 1;
-            await saveStateToCloud(freshState);
-            state = freshState;
-            votedRound = currentRound;
-
-            // Отмечаем кнопку
+            fresh.votes[option] = (fresh.votes[option] || 0) + 1;
+            await saveState(fresh);
+            state = fresh;
+            votedRound = state.round;
+            
             const optA = document.getElementById('optA');
             const optB = document.getElementById('optB');
             document.querySelectorAll('.option-btn').forEach(el => el.classList.remove('selected'));
@@ -834,47 +616,41 @@
                 optB.classList.add('voted');
                 optA.classList.add('voted');
             }
-
-            const waitingStatus = document.getElementById('waitingStatus');
-            waitingStatus.classList.add('active');
-            waitingStatus.innerHTML = '<span></span> Спасибо! Ожидаем, пока ведущий откроет следующий вопрос...';
-            
-            hideError('voterError');
-        } catch (error) {
-            showError('voterError', '❌ Ошибка голосования. Попробуйте еще раз.');
-        } finally {
-            isUpdating = false;
+            const ws = document.getElementById('waitingStatus');
+            ws.classList.add('active');
+            ws.innerHTML = '<span></span> Спасибо! Ожидаем следующий вопрос...';
+        } catch (e) {
+            showError('voterError', '❌ Ошибка голосования');
         }
     }
 
-    // ============================================================
-    //  ЗАПУСК
-    // ============================================================
-    // Проверяем, что настройки JSONBIN заполнены
+    function showError(id, msg) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = msg;
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 5000);
+        }
+    }
+
+    // Проверка настройки JSONBin
     if (JSONBIN_CONFIG.BIN_ID === 'ВАШ_BIN_ID' || JSONBIN_CONFIG.API_KEY === 'ВАШ_API_КЛЮЧ') {
         document.body.innerHTML = `
             <div style="display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0b0e1a;color:#fff;padding:20px;text-align:center;">
                 <div style="max-width:500px;background:#141b2b;padding:40px;border-radius:20px;">
-                    <h2 style="color:#f87171;">⚠️ Настройка JSONBin</h2>
+                    <h2 style="color:#f87171;">⚠️ Настройте JSONBin</h2>
                     <p style="color:#94a3b8;margin:20px 0;">
-                        Пожалуйста, настройте JSONBin в коде:<br>
-                        1. Зарегистрируйтесь на <a href="https://jsonbin.io" target="_blank" style="color:#a78bfa;">jsonbin.io</a><br>
-                        2. Создайте новый бин (Create Bin)<br>
-                        3. Вставьте BIN_ID и API_KEY в код
+                        Получите BIN_ID и API_KEY на <a href="https://jsonbin.io" target="_blank" style="color:#a78bfa;">jsonbin.io</a>
                     </p>
-                    <pre style="background:#0b0e1a;padding:16px;border-radius:12px;text-align:left;font-size:12px;color:#8892b0;overflow:auto;">
+                    <pre style="background:#0b0e1a;padding:16px;border-radius:12px;text-align:left;font-size:12px;color:#8892b0;">
 const JSONBIN_CONFIG = {
     BIN_ID: 'ваш_бин_id',
     API_KEY: 'ваш_api_ключ',
-};
-                    </pre>
+};</pre>
                 </div>
             </div>
         `;
-    } else {
-        init();
     }
 </script>
-
 </body>
 </html>
